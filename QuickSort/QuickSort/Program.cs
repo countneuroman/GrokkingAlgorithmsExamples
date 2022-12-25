@@ -1,51 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace QuickSort
+﻿namespace QuickSort
 {
     internal static class Program
     {
         public static void Main()
         {
-            List<int> elements = new() {10, 5, 20, 30, 40, 7, 16, 19, 50, 67, 20, 45, 12, 24, 53, 68, 12, 16, 19};
-            List<int>result = QuickSort(elements);
-            foreach (var i in result)
+            int[] elements = new[] {10, 5, 12, 32, 65, 7};
+            QuickSort(elements, 0, elements.Length - 1);
+            foreach (int i in elements)
             {
                 Console.Write($"{i}, ");
             }            
         }
 
-        private static List<int> QuickSort(List<int> elements)
+        private static void QuickSort(int[] array, int minIndex, int maxIndex)
         {
-            if (elements.Count < 2)
+            if (minIndex < maxIndex)
             {
-                return elements;
-            }
-            elements.Sort();
+                int pivotIndex = GetPivotIndex(array, minIndex, maxIndex);
 
-            Random random = new();
-            var randIndex = random.Next(elements.Count);
+                QuickSort(array, minIndex, pivotIndex - 1);
+
+                QuickSort(array, pivotIndex + 1, maxIndex);
+            }
+
+        }
+
+        private static int GetPivotIndex(int[] array, int minIndex, int maxIndex)
+        {
+            int pivotValue = array[maxIndex];
             
-            var pivot = elements[randIndex];
-            List<int> less = new();
-            List<int> greater = new();
-                
-            for (var i = 1; i < elements.Count; i++)
+            int pivotIntendedPosition = minIndex - 1;
+
+            for (int i = minIndex; i < maxIndex; i++)
             {
-                if (elements[i] <= pivot)
+                if (array[i] < pivotValue)
                 {
-                    less.Add(elements[i]);
-                }
-                else
-                {
-                    greater.Add(elements[i]);
+                    pivotIntendedPosition++;
+                    Swap(array, pivotIntendedPosition, i);
                 }
             }
+            Swap(array, pivotIntendedPosition + 1, maxIndex);
 
-            var result = QuickSort(less);
-            result.Add(pivot);
-            result.AddRange(QuickSort(greater));
-            return result;
+            return pivotIntendedPosition + 1;
+        }
+
+        private static void Swap(int[] array, int leftIndex, int rightIndex)
+        {
+            int temp = array[leftIndex];
+
+            array[leftIndex] = array[rightIndex];
+
+            array[rightIndex] = temp;
         }
     }
 }
