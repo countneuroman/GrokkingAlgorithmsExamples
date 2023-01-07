@@ -56,9 +56,9 @@ class Program
 
     private static string FindLowestCostNode(Dictionary<string, int> costs, HashSet<string> processed)
     {
-        string minimalNode = costs.Where(x => x.Value >= 0).MinBy(x=>x.Value).Key;
-        if (processed.Contains(minimalNode))
+        var filteredNodes = costs.Where(x => x.Value >= 0 & !processed.Contains(x.Key)).ToArray();
+        if (filteredNodes.Length <= 0)
             return "";
-        return minimalNode;
+        return filteredNodes.MinBy(x=>x.Value).Key;
     }
 }
