@@ -16,7 +16,7 @@ class Program
         {
             {"a", 6},
             {"b", 2},
-            {"finish", int.MinValue} //MinValue represents infinity.
+            {"finish", int.MaxValue} //MaxValue represents infinity.
         };
 
         Dictionary<string, string> parents = new()
